@@ -5,13 +5,13 @@ from os.path import join, dirname, realpath
 import base64
 from io import BytesIO
 
+import pandas as pd
 import matplotlib.pylab as plt
 import matplotlib.ticker as ticker
 from matplotlib.gridspec import GridSpec
-
-import pandas as pd
-
 import matplotlib as mpl
+
+
 mpl.use('Agg')
 
 from waveletAnalysis import plotWavelet
@@ -71,5 +71,5 @@ def process():
     #else:
     #    return redirect(url_for('index'))
 
-if (__name__ == "__main__"):
-     app.run(port = 5000)
+if __name__ == "__main__":
+        app.run()

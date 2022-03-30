@@ -146,8 +146,7 @@ def plotWavelet(fnm,params):
     plt.title(f'a) {title}')
 
     plt.text(1.25, 0.5, 'Wavelet Analysis\nC. Torrence & G.P. Compo\n'
-        'http://paos.colorado.edu/\nresearch/wavelets/\n'
-        #'© 2022 - Mario Krapp',
+        'http://paos.colorado.edu/\nresearch/wavelets/',
         horizontalalignment='center', verticalalignment='center',transform=plt.gca().transAxes)
 
     # --- Contour plot wavelet power spectrum

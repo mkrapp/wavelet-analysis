@@ -67,9 +67,11 @@ def process():
         fig.savefig(buf, format="png")
         # Embed the result in the html output.
         data = base64.b64encode(buf.getbuffer()).decode("ascii")
-        img = f"<a href='data:image/png;base64,{data}'><img src='data:image/png;base64,{data}' width=600 style='border:1px solid grey;box-shadow: 2px 4px lightgrey;'/></a>"
-        return render_template('data.html',  plots=[img])
-    except:
+        img = f"<a href='data:image/png;base64,{data}'><img src='data:image/png;base64,{data}'/></a>"
+        plt.close(fig)
+        return render_template('data.html',  plot=img)
+    except Exception as e:
+        print(e)
         return render_template('error.html')
     #else:
     #    return redirect(url_for('index'))

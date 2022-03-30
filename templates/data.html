@@ -8,12 +8,18 @@
 	<body>
 
 		<div class="content">
-			{% for plot in plots %}
+			<h1>Wavelet Analysis</h1>
+			<div class="img-wrap">
 				{{ plot|safe }}
-			{% endfor %}
+			</br>
+			(Click for larger image)
+			</div>
 			</br>
 			<button type="button" onclick="javascript:history.back()">Back</button> 
-			(Click for larger image)
+			<blockquote>Python wavelet software provided by <em>Evgeniya Predybaylo</em> based on <em>Torrence and Compo (1998)</em> and is available at <a href="https://paos.colorado.edu/research/wavelets/" target="_blank">https://paos.colorado.edu/research/wavelets/</a> and <a href="https://github.com/chris-torrence/wavelets" target="_blank">https://github.com/chris-torrence/wavelets</a></blockquote>
+			<p>
+			&copy; 2022 &mdash; Mario Krapp (<a href="mailto:mariokrapp@gmail.com?subject=Wavelet analysis">email</a>), made with &#128156;.
+			</p>
 		</div>
 	</body>
 </html>

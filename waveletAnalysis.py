@@ -4,6 +4,7 @@ from matplotlib.gridspec import GridSpec
 
 import numpy as np
 import pandas as pd
+import sys
 
 # from mpl_toolkits.axes_grid1 import make_axes_locatable
 
@@ -39,29 +40,38 @@ def plotWavelet(fnm,params):
     #df_y = data2df()
     #df_y.to_csv("sst_nino3.csv")
 
-    df_y = pd.read_csv(fnm,index_col=0,squeeze=True)
+    df = pd.read_csv(fnm,index_col=0,squeeze=True)
+    #df.index = (df.index - df.index.min())  / np.timedelta64(1,'Y')
+    print(df.index)
     if params["transform"] == "log":
-        df_y = df_y.apply(np.log) # log-transform
-    y = df_y.values.flatten()
-    time = df_y.index.values
-    dt = np.diff(time)[0]
-    name = df_y.name
-    x_unit = df_y.index.name
-    xlim = ([time[0],time[-1]])
+        df = df.apply(np.log) # log-transform
+    y = df.values.flatten()
+    time = df.index.values
+    # check for dates in index, e.g., "2021-05-19" 
+    dates = None
+    try:
+        dt = np.diff(time)[0]
+    except:
+        time = np.arange(len(time))
+        dt = np.diff(time)[0]
+        dates = pd.to_datetime(df.index)
+    name = df.name
+    x_unit = df.index.name
+    xlim = ([df.index[0],df.index[-1]])
 
-    lag1 = df_y.autocorr(1)
+    lag1 = df.autocorr(1)
 
     y = y - np.mean(y)
     variance = np.std(y, ddof=1) ** 2
     #print(f"variance = {variance:.2g}")
 
-    # to be specificed by user
-    max_powers = 7
-    scale1 = 2
-    scale2 = 8
-    units = "\u2103"
-    title = "NINO3 Sea Surface Temperature (seasonal)"
-    levels = [0, 0.5, 1, 2, 4, 999]
+    ## to be specificed by user
+    #max_powers = 7
+    #scale1 = 2
+    #scale2 = 8
+    #units = "\u2103"
+    #title = "NINO3 Sea Surface Temperature (seasonal)"
+    #levels = [0, 0.5, 1, 2, 4, 999]
 
     max_powers = params["max_power"]
     scale1     = params["scale1"]
@@ -125,14 +135,19 @@ def plotWavelet(fnm,params):
     plt.subplots_adjust(left=0.1, bottom=0.05, right=0.9, top=0.95,
                         wspace=0, hspace=0)
     plt.subplot(gs[0, 0:3])
-    plt.plot(time, y, 'k')
-    plt.xlim(xlim[:])
+    if dates is None:
+        x = time
+    else:
+        x = dates
+    plt.plot(x, y, 'k')
+    #plt.xlim(xlim[:])
     plt.xlabel(f'{x_unit}')
     plt.ylabel(name)
     plt.title(f'a) {title}')
 
     plt.text(1.25, 0.5, 'Wavelet Analysis\nC. Torrence & G.P. Compo\n'
-        'http://paos.colorado.edu/\nresearch/wavelets/',
+        'http://paos.colorado.edu/\nresearch/wavelets/\n'
+        #'© 2022 - Mario Krapp',
         horizontalalignment='center', verticalalignment='center',transform=plt.gca().transAxes)
 
     # --- Contour plot wavelet power spectrum
@@ -140,19 +155,19 @@ def plotWavelet(fnm,params):
     plt3 = plt.subplot(gs[1, 0:3])
     #levels = [0, 0.5, 1, 2, 4, 999]
     # *** or use 'contour'
-    CS = plt.contourf(time, period, power, len(levels))
+    CS = plt.contourf(x, period, power, len(levels))
     im = plt.contourf(CS, levels=levels,
         colors=['white', 'bisque', 'orange', 'orangered', 'darkred'])
     plt.xlabel(f'{x_unit}')
-    plt.ylabel('Period (years)')
+    plt.ylabel('Period (Δt units)')
     plt.title(f'b) Wavelet Power Spectrum (contours at {str(levels[1:-1])[1:-1]} ({units})\u00b2)')
-    plt.xlim(xlim[:])
+    #plt.xlim(xlim[:])
     # 95# significance contour, levels at -99 (fake) and 1 (95# signif)
-    plt.contour(time, period, sig95, [-99, 1], colors='k')
+    plt.contour(x, period, sig95, [-99, 1], colors='k')
     # cone-of-influence, anything "below" is dubious
-    plt.fill_between(time, coi * 0 + period[-1], coi, facecolor="none",
+    plt.fill_between(x, coi * 0 + period[-1], coi, facecolor="none",
         edgecolor="#00000040", hatch='x')
-    plt.plot(time, coi, 'k')
+    plt.plot(x, coi, 'k')
     # format y-scale
     plt3.set_yscale('log', base=2, subs=None)
     plt.ylim([np.min(period), np.max(period)])
@@ -185,15 +200,30 @@ def plotWavelet(fnm,params):
 
     # --- Plot 2--8 yr scale-average time series
     plt.subplot(gs[2, 0:3])
-    plt.plot(time, scale_avg, 'k')
-    plt.xlim(xlim[:])
+    plt.plot(x, scale_avg, 'k')
+    #plt.xlim(xlim[:])
     plt.xlabel(f'{x_unit}')
     plt.ylabel(f'Avg variance ({units})\u00b2')
     plt.title(f'd) {scale1}-{scale2} yr Scale-average Time Series')
-    plt.plot(xlim, scaleavg_signif + [0, 0], '--')
+    #plt.plot(xlim, scaleavg_signif + [0, 0], '--')
 
     #plt.show()
     return fig
+
+def main():
+    file_path = sys.argv[1]
+    params= {
+            "transform": "log",
+            #"transform": "lin",
+            "max_power": 7,
+            "scale1": 2,
+            "scale2": 8,
+            "units": "\u2103",
+            "title": "NINO3 Sea Surface Temperature (seasonal)",
+            "levels": [0, 0.5, 1, 2, 4, 999]
+    }
+    fig = plotWavelet(file_path,params)
+    plt.show()
 
 if __name__ == "__main__":
     main()

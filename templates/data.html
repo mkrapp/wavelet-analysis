@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Your data</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	</head>
+	<body>
+
+		<div class="content">
+			{% for plot in plots %}
+				{{ plot|safe }}
+			{% endfor %}
+			</br>
+			<button type="button" onclick="javascript:history.back()">Back</button> 
+			(Click for larger image)
+		</div>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Wavelet Analysis</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	</head>
+	<body>
+		<div class="content">
+			<h1>Wavelet Analysis</h1>
+
+			<div  class="settings">
+				<form method="POST" action="" enctype="multipart/form-data" style="margin: 20px">
+
+					<p>1. Upload your CSV file</p>
+					Use <a href="static/files/sst_nino3.csv" target="_blank"><code>sst_nino3.csv</code></a> or
+					<p><input type="file" name="file" accept="text/plain"></p>
+					<hr color="lightgrey">
+					<p>2. Set parameters</p>
+					<p>
+					a) Transform data:
+					<input type="radio" id="log" name="transform" value="log">
+					<label for="log">log</label> <em>or</em> 
+					<input type="radio" id="linear" name="transform" value="linear" checked>
+					<label for="linear">linear</label>
+					</br>
+					b) Max power: <input type="number" value="7" step="1" name="max_power">
+					</br>
+					c) [Scale1 - Scale2]: 
+					[<input type="number" value="2" step="1" name="scale1"> - 
+					<input type="number" value="8" step="1" name="scale2">]
+					</br>
+					d) Levels: <input type="string" value="0.5, 1, 2, 4" name="levels">
+					</br>
+					e) Units: <input type="string" value="&#8451;" name="units">
+					</br>
+					f) Title: <input type="string" value="NINO3 Sea Surface Temperature (seasonal)" name="title">
+					</p>
+					<hr color="lightgrey">
+					<p>3. Click on "Run"</p>
+					<p><input type="submit" value="Run"></p>
+				</form>
+			</div>
+
+			<p>
+			&copy; 2022 &mdash; Mario Krapp (<a href="mailto:mariokrapp@gmail.com?subject=Wavelet analysis">email</a>)
+			</p>
+		</div>
+	</body>
+</html>

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 from os.path import join, dirname, realpath
+import tempfile
 
 import base64
 from io import BytesIO
@@ -25,8 +26,7 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 # Upload folder
-UPLOAD_FOLDER = 'static/files'
-app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] =  tempfile.mkdtemp()
 
 
 # Root URL
@@ -47,7 +47,7 @@ def process():
         # save the file
         uploaded_file.save(file_path)
     else:
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], "sst_nino3.csv")
+        file_path = "static/files/sst_nino3.csv"
     # parse parameters
     params = {
             "transform": request.form.get("transform"),

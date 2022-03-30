@@ -1,6 +1,7 @@
 django
 gunicorn
 django-heroku
+flask
 matplotlib
 numpy
 pandas

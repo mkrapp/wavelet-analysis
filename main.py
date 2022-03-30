@@ -48,17 +48,18 @@ def process():
         uploaded_file.save(file_path)
     else:
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], "sst_nino3.csv")
-        # parse parameters
-        params = {
-                "transform": request.form.get("transform"),
-                "max_power": int(request.form.get("max_power")),
-                "scale1": int(request.form.get("scale1")),
-                "scale2": int(request.form.get("scale2")),
-                "levels": [0]+[float(l) for l in request.form.get("levels").split(",")]+[999],
-                "units": request.form.get("units"),
-                "title": request.form.get("title"),
-                }
-        #print(params)
+    # parse parameters
+    params = {
+            "transform": request.form.get("transform"),
+            "max_power": int(request.form.get("max_power")),
+            "scale1": int(request.form.get("scale1")),
+            "scale2": int(request.form.get("scale2")),
+            "levels": [0]+[float(l) for l in request.form.get("levels").split(",")]+[999],
+            "units": request.form.get("units"),
+            "title": request.form.get("title"),
+            }
+    #print(params)
+    try:
         # Save it to a temporary buffer.
         fig = plotWavelet(file_path,params)
         buf = BytesIO()
@@ -68,6 +69,8 @@ def process():
         data = base64.b64encode(buf.getbuffer()).decode("ascii")
         img = f"<a href='data:image/png;base64,{data}'><img src='data:image/png;base64,{data}' width=600 style='border:1px solid grey;box-shadow: 2px 4px lightgrey;'/></a>"
         return render_template('data.html',  plots=[img])
+    except:
+        return render_template('error.html')
     #else:
     #    return redirect(url_for('index'))
 

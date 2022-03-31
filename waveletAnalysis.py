@@ -1,6 +1,7 @@
 import matplotlib.pylab as plt
 import matplotlib.ticker as ticker
 from matplotlib.gridspec import GridSpec
+import matplotlib as mpl
 
 import numpy as np
 import pandas as pd
@@ -79,6 +80,7 @@ def plotWavelet(fnm,params):
     dt_units   = params["dt_units"]
     title      = params["title"]
     levels     = params["levels"]
+    colormap   = params["cmap"]
 
     # ----------C-O-M-P-U-T-A-T-I-O-N------S-T-A-R-T-S------H-E-R-E---------------
 
@@ -155,8 +157,13 @@ def plotWavelet(fnm,params):
     #levels = [0, 0.5, 1, 2, 4, 999]
     # *** or use 'contour'
     CS = plt.contourf(x, period, power, len(levels))
+    cmap = mpl.cm.get_cmap(colormap)  # define the colormap
+    # extract all colors from the color map
+    cmaplist = [cmap(cmap.N//(len(levels)-2)*i) for i in range(len(levels)-2)]
+    # force the first color entry to be white
+    cmaplist.insert(0,(1, 1, 1, 1.0))
     im = plt.contourf(CS, levels=levels,
-        colors=['white', 'bisque', 'orange', 'orangered', 'darkred'])
+            colors=cmaplist)
     plt.xlabel(f'{x_unit}')
     plt.ylabel(f'Period ({dt_units})')
     plt.title(f'b) Wavelet Power Spectrum (contours at {str(levels[1:-1])[1:-1]} ({units})\u00b2)')

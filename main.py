@@ -58,6 +58,7 @@ def process():
             "dt_units": request.form.get("dt_units"),
             "units": request.form.get("units"),
             "title": request.form.get("title"),
+            "cmap": request.form.get("cmap"),
             }
     #print(params)
     try:
@@ -72,8 +73,7 @@ def process():
         plt.close(fig)
         return render_template('data.html',  plot=img)
     except Exception as e:
-        print(e)
-        return render_template('error.html')
+        return render_template('error.html',exception=e)
     #else:
     #    return redirect(url_for('index'))
 

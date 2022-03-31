@@ -5,6 +5,7 @@ body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #444;
 	justify-content: center;
+	line-height: 1.6;
 }
 .settings {
 	border: 1px solid grey;
@@ -17,15 +18,13 @@ body {
 }
 .img-wrap {
 	display: block;
-	margin-right: auto;
-	margin-left: auto;
-	width: 70%;
 }
 img {
 	border: 1px solid darkgrey;
 	box-shadow: 2px 4px lightgrey;
 	display: flex;
 	justify-content: center;
+	width: 60%;
 }
 
 

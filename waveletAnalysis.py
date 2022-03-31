@@ -40,7 +40,7 @@ def plotWavelet(fnm,params):
     #df_y = data2df()
     #df_y.to_csv("sst_nino3.csv")
 
-    df = pd.read_csv(fnm,index_col=0,squeeze=True)
+    df = pd.read_csv(fnm,index_col=0).squeeze("columns")
     #df.index = (df.index - df.index.min())  / np.timedelta64(1,'Y')
     if params["transform"] == "log":
         df = df.apply(np.log) # log-transform

@@ -40,7 +40,7 @@ def plotWavelet(fnm,params):
     #df_y = data2df()
     #df_y.to_csv("sst_nino3.csv")
 
-    df = pd.read_csv(fnm,index_col=0).squeeze("columns")
+    df = pd.read_csv(fnm,index_col=0).squeeze("columns").dropna()
     #df.index = (df.index - df.index.min())  / np.timedelta64(1,'Y')
     if params["transform"] == "log":
         df = df.apply(np.log) # log-transform
@@ -76,6 +76,7 @@ def plotWavelet(fnm,params):
     scale1     = params["scale1"]
     scale2     = params["scale2"]
     units      = params["units"]
+    dt_units   = params["dt_units"]
     title      = params["title"]
     levels     = params["levels"]
 
@@ -157,7 +158,7 @@ def plotWavelet(fnm,params):
     im = plt.contourf(CS, levels=levels,
         colors=['white', 'bisque', 'orange', 'orangered', 'darkred'])
     plt.xlabel(f'{x_unit}')
-    plt.ylabel('Period (Δt units)')
+    plt.ylabel(f'Period ({dt_units})')
     plt.title(f'b) Wavelet Power Spectrum (contours at {str(levels[1:-1])[1:-1]} ({units})\u00b2)')
     #plt.xlim(xlim[:])
     # 95# significance contour, levels at -99 (fake) and 1 (95# signif)
@@ -202,7 +203,7 @@ def plotWavelet(fnm,params):
     #plt.xlim(xlim[:])
     plt.xlabel(f'{x_unit}')
     plt.ylabel(f'Avg variance ({units})\u00b2')
-    plt.title(f'd) {scale1}-{scale2} yr Scale-average Time Series')
+    plt.title(f'd) {scale1}-{scale2} {dt_units} Scale-average Time Series')
     #plt.plot(xlim, scaleavg_signif + [0, 0], '--')
 
     #plt.show()

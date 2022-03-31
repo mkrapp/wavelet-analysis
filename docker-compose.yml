@@ -2,7 +2,6 @@ version: '2'
 services:
     web:
         build: .
-        ports:
         volumes:
             - .:/app
         depends_on:

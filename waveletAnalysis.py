@@ -42,7 +42,6 @@ def plotWavelet(fnm,params):
 
     df = pd.read_csv(fnm,index_col=0,squeeze=True)
     #df.index = (df.index - df.index.min())  / np.timedelta64(1,'Y')
-    print(df.index)
     if params["transform"] == "log":
         df = df.apply(np.log) # log-transform
     y = df.values.flatten()

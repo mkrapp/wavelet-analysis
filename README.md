@@ -1,29 +1,3 @@
-wavelet-analysis
-==============================
+# wavelet-analysis
 
-An online wavelet analysis tools (Torrence & Compo)
-
-Project Organization
---------------------
-
-    .
-    ├── AUTHORS.md
-    ├── LICENSE
-    ├── README.md
-    ├── bin
-    ├── config
-    ├── data
-    │   ├── external
-    │   ├── interim
-    │   ├── processed
-    │   └── raw
-    ├── docs
-    ├── notebooks
-    ├── reports
-    │   └── figures
-    └── src
-        ├── data
-        ├── external
-        ├── models
-        ├── tools
-        └── visualization
+An online wavelet analysis tools (like the old *Torrence & Compo*).

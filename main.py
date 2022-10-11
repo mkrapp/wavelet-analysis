@@ -54,7 +54,7 @@ def process():
             "max_power": int(request.form.get("max_power")),
             "scale1": int(request.form.get("scale1")),
             "scale2": int(request.form.get("scale2")),
-            "levels": [0]+[float(l) for l in request.form.get("levels").split(",")]+[999],
+            "levels": [0]+[float(l) for l in request.form.get("levels").split(",")]+[1e40],
             "dt_units": request.form.get("dt_units"),
             "units": request.form.get("units"),
             "title": request.form.get("title"),

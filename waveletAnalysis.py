@@ -156,7 +156,7 @@ def plotWavelet(fnm,params):
     plt3 = plt.subplot(gs[1, 0:3])
     #levels = [0, 0.5, 1, 2, 4, 999]
     # *** or use 'contour'
-    CS = plt.contourf(x, period, power, len(levels))
+    CS = plt.contourf(x, period, power, levels)
     cmap = mpl.cm.get_cmap(colormap)  # define the colormap
     # extract all colors from the color map
     cmaplist = [cmap(cmap.N//(len(levels)-2)*i) for i in range(len(levels)-2)]
@@ -166,7 +166,7 @@ def plotWavelet(fnm,params):
             colors=cmaplist)
     plt.xlabel(f'{x_unit}')
     plt.ylabel(f'Period ({dt_units})')
-    plt.title(f'b) Wavelet Power Spectrum (contours at {str(levels[1:-1])[1:-1]} ({units})\u00b2)')
+    plt.title(f'b) Wavelet Power Spectrum\n(contours at {str(levels[1:-1])[1:-1]} ({units})\u00b2)')
     #plt.xlim(xlim[:])
     # 95# significance contour, levels at -99 (fake) and 1 (95# signif)
     plt.contour(x, period, sig95, [-99, 1], colors='k')
